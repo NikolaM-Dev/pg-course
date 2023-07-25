@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  myDB:
+    image: postgres:15.3
+    container_name: nikola-db-container
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=nikola-db
+      - POSTGRES_PASSWORD=nikola-password
+      - POSTGRES_USER=nikola
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+
+  pdAdmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4
+    restart: always
+    depends_on:
+      - myDB
+    ports:
+      - 8080:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=nikola@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=nikola-password
+    volumes:
+      - ./pgadmin:/certs/server.cert
+      - ./pgadmin:/certs/server.key
+      - ./pgadmin:/pgadmin4/servers.json
+      - ./pgadmin:/var/lib/pgadmin
