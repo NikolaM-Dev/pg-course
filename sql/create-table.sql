@@ -1,0 +1,2 @@
+CREATE TABLE
+	users (name VARCHAR(10) UNIQUE,);
